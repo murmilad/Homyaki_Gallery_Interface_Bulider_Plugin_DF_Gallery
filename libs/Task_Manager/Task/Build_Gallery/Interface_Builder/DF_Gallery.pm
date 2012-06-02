@@ -90,11 +90,11 @@ sub add_xml_new_images {
 		close (XML);
 
 
-		my $ftp = Net::FTP->new($params->{site_url}, Debug => 0)
-			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot connect to " . $params->{site_url} . ") $@");
+		my $ftp = Net::FTP->new($params->{web_url}, Debug => 0)
+			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot connect to " . $params->{web_url} . ") $@");
 		
-		$ftp->login($params->{site_login}, $params->{site_password})
-			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot login to " . $params->{site_url} . ") " . $ftp->message);
+		$ftp->login($params->{web_login}, $params->{web_password})
+			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot login to " . $params->{web_url} . ") " . $ftp->message);
 	
 		upload_file($upload_pictures_name, '/', $ftp);
 	
@@ -197,11 +197,11 @@ sub make {
 		print XML $gallery->code();
 		close (XML);
 
-		my $ftp = Net::FTP->new($params->{site_url}, Debug => 0)
-			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot connect to " . $params->{site_url} . ") $@");
+		my $ftp = Net::FTP->new($params->{web_url}, Debug => 0)
+			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot connect to " . $params->{web_url} . ") $@");
 		
-		$ftp->login($params->{site_login}, $params->{site_password})
-			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot login to " . $params->{site_url} . ") " . $ftp->message);
+		$ftp->login($params->{web_login}, $params->{web_password})
+			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot login to " . $params->{web_url} . ") " . $ftp->message);
 	
 		upload_file($params->{xml_path}, '/gallery.xml', $ftp);
 	} else {
