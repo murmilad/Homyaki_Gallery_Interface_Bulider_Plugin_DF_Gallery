@@ -134,7 +134,7 @@ sub make {
 	add_xml_string($language, "next page");
 
 	my $album_tags = [];
-	foreach my $album (($new_images, @{$albums})){
+	foreach my $album (@{$albums}){
 		my $image_tags = [];
 		foreach my $image (@{$album->{images}}){
 			my $image_tag = new XML::Code ('image');
