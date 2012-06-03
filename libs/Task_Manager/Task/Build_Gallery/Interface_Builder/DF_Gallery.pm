@@ -4,6 +4,7 @@ use strict;
 
 use XML::Code;
 use Net::FTP;
+use Homyaki::Logger;
 
 use constant WEEK_DAY_MAP => {
 	1 => 'Monday',
@@ -83,7 +84,7 @@ sub add_xml_new_images {
 	push(@{$album_tags}, $album_tag);
 	
 
-	my $upload_pictures_name = &GALLERY_PATH . "${year}_${mon}_${mday}__${hour}_${min}_${sec}.xml";
+	my $upload_pictures_name = $params->{gallery_path} . "${year}_${mon}_${mday}__${hour}_${min}_${sec}.xml";
 	if (open (XML, ">$upload_pictures_name")){
 
 		print XML $album_tags->code();
