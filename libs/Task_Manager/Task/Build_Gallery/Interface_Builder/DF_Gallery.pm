@@ -104,6 +104,20 @@ sub add_xml_new_images {
 	}
 }
 
+sub upload_file {
+	my $source_path = shift;
+	my $dest_path   = shift;
+	my $ftp         = shift;
+	my $index       = 1;
+	
+	if ($dest_path && $dest_path ne '/') {
+		$ftp->put($source_path, $dest_path)
+			or Homyaki::Logger::print_log("Build_Gallery: Error: (Cannot put $source_path to $dest_path) " . $ftp->message);
+	} else {
+		$ftp->put($source_path)
+			or Homyaki::Logger::print_log("Build_Gallery: Error: (Cannot put $source_path to $dest_path) " . $ftp->message);
+	}
+}
 
 sub make {
 	my $class = shift;
