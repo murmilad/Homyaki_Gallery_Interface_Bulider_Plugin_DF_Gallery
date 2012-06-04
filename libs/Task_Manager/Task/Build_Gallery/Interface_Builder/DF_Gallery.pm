@@ -55,15 +55,13 @@ sub add_xml_config {
 	$xml->add_child($config);
 }
 
-sub add_xml_new_images {
+sub add_xml_album_log {
 	my %h = @_;
 	
 	my $params     = $h{params};
-	my $new_images = $h{new_images};
-	my $album_tags = $h{album_tags};
+	my $album_tag  = $h{album_tag};
 
 	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time());
-	my $album_tag = new XML::Code ('album');
 
 	$wday = &WEEK_DAY_MAP->{$wday};
 	$year = 1900 + $year;
@@ -74,15 +72,6 @@ sub add_xml_new_images {
 	$mon++;
 	$mon  = sprintf('%02d',$mon);
 
-	$album_tag->{title}       = 'New pictures/comments';
-	$album_tag->{description} = "This pictures or comments was changed on $wday $mday.$mon.$year";
-
-	foreach (@{$new_images}) {
-		$album_tag->add_child ($_);
-	}
-
-	push(@{$album_tags}, $album_tag);
-	
 
 	my $upload_pictures_name = $params->{gallery_path} . "${year}_${mon}_${mday}__${hour}_${min}_${sec}.xml";
 	if (open (XML, ">$upload_pictures_name")){
@@ -120,6 +109,21 @@ sub upload_file {
 	}
 }
 
+sub get_new_album_name {
+	my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time());
+
+	$wday = &WEEK_DAY_MAP->{$wday};
+	$year = 1900 + $year;
+	$sec  = sprintf('%02d',$sec);
+	$min  = sprintf('%02d',$min);
+	$hour = sprintf('%02d',$hour);
+	$mday = sprintf('%02d',$mday);
+	$mon++;
+	$mon  = sprintf('%02d',$mon);
+
+	return "This pictures or comments was changed on $wday $mday.$mon.$year";
+}
+
 sub make {
 	my $class = shift;
 	my %h = @_;
@@ -150,7 +154,7 @@ sub make {
 	add_xml_string($language, "next page");
 
 	my $album_tags = [];
-	foreach my $album (@{$albums}){
+	foreach my $album ({print_log => 1, name => get_new_album_name(), images => $new_images}, (@{$albums})){
 		my $image_tags = [];
 		foreach my $image (@{$album->{images}}){
 			my $image_tag = new XML::Code ('image');
@@ -187,15 +191,13 @@ sub make {
 			}
 
 			push (@{$album_tags}, $album_tag);
+			if  ($album->{print_log}) {
+				add_xml_album_log(
+					params    => $params,
+					album_tag => $album_tag
+				)
+			}
 		}
-	}
-
-	if ($params->{update} && scalar(@{$new_images}) > 0) {
-		add_xml_new_images(
-			params     => $params,
-			new_images => $new_images,
-			album_tags => $album_tags,
-		)
 	}
 
 	my $albums_tag = new XML::Code ('albums');
