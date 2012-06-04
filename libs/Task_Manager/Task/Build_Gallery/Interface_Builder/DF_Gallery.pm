@@ -87,7 +87,7 @@ sub add_xml_new_images {
 	my $upload_pictures_name = $params->{gallery_path} . "${year}_${mon}_${mday}__${hour}_${min}_${sec}.xml";
 	if (open (XML, ">$upload_pictures_name")){
 
-		print XML $album_tags->code();
+		print XML $album_tag->code();
 		close (XML);
 
 
