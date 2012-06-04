@@ -164,7 +164,7 @@ sub make {
 			$image_tag->{image}       = $image->{image};
 			$image_tag->{date}        = $image->{date};
 
-			$image_tag->set_text($image->{resume});
+			$image_tag->set_text('<![CDATA[' . $image->{resume} . ']]>');
 			push(@{$image_tags}, $image_tag);
 		}
 
