@@ -1,0 +1,9 @@
+<menue>
+	<menue name="Photo Gallery">
+		<menue name="Flash DF Gallery" interface="gallery" form="df_gallery">
+			<permission>reader</permission>
+			<permission>guest</permission>
+		</menue>
+	</menue>
+
+</menue>
