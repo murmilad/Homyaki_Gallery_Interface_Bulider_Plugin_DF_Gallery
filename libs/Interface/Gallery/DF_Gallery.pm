@@ -39,20 +39,20 @@ sub get_form {
 
 
 	if (-f &WWW_PATH . '/gallery.html') {
-		if (open HTML_FILE, '<' . &WWW_PATH . '/gallery.html') {
-			my $html_file = '';
-			while (my $str = <HTML_FILE>) {
-				$html_file .= $str;
-			}
-			close HTML_FILE;
+#		if (open HTML_FILE, '<' . &WWW_PATH . '/gallery.html') {
+#			my $html_file = '';
+#			while (my $str = <HTML_FILE>) {
+#				$html_file .= $str;
+#			}
+#			close HTML_FILE;
 
 			$body_tag_->add_form_element(
 				name   => "html_body",
 				type   => &INPUT_TYPE_DIV,
-				body   => $html_file,
+				body   => '<iframe src="/gallery.html" width="1024" height="768" frameborder="0" scrolling="no">',
 			);
 			
-		}
+#		}
 	}
 
 
