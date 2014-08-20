@@ -6,6 +6,8 @@ use XML::Code;
 use Net::FTP;
 use Homyaki::Logger;
 
+use Homyaki::Task_Manager::Task::Build_Gallery;
+
 use constant WEEK_DAY_MAP => {
 	1 => 'Monday',
 	2 => 'Tuesday',
@@ -86,7 +88,7 @@ sub add_xml_album_log {
 		$ftp->login($params->{web_login}, $params->{web_password})
 			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot login to " . $params->{web_path} . ") " . $ftp->message);
 	
-		upload_file($upload_pictures_name, '/', $ftp);
+		upload_file($upload_pictures_name, Homyaki::Task_Manager::Task::Build_Gallery::FTP_PATH, $ftp);
 	
 		$ftp->quit;
 	} else {
@@ -220,7 +222,7 @@ sub make {
 		$ftp->login($params->{web_login}, $params->{web_password})
 			or Homyaki::Logger::print_log("DF_Gallery: Error: (Cannot login to " . $params->{web_path} . ") " . $ftp->message);
 	
-		upload_file($params->{xml_path}, '/gallery.xml', $ftp);
+		upload_file($params->{xml_path}, Homyaki::Task_Manager::Task::Build_Gallery::FTP_PATH . '/gallery.xml', $ftp);
 	} else {
 		Homyaki::Logger::print_log('cant open ' . $params->{xml_path}  . " $!");
 	}
